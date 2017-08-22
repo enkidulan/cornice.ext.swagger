@@ -641,7 +641,9 @@ class CorniceSwagger(object):
 
         schema = args.get('schema', colander.MappingSchema())
         if not isinstance(schema, colander.Schema):
-            schema = schema()
+            import inspect
+            if inspect.isclass(schema):
+                schema = schema()
         schema = schema.clone()
         for transformer in self.schema_transformers:
             schema = transformer(schema, args)
